@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 //@CrossOrigin(origins = "http://localhost:8080/#/",maxAge = 1000)
-//@CrossOrigin("http://localhost:8080")
 public class StudentController {
     @Resource
     private StudentService studentService;
@@ -21,12 +20,12 @@ public class StudentController {
         return studentService.findAll();
     }
 
-    @RequestMapping(value = "/login/{name}/{password}", method = RequestMethod.GET)
-    public StudentResponse validate(@PathVariable String name, @PathVariable String password) {
+    @RequestMapping(value = "/login/{email}/{password}", method = RequestMethod.GET)
+    public StudentResponse validate(@PathVariable String email, @PathVariable String password) {
         var s = new Student();
         var response = new StudentResponse();
         try {
-            s = studentService.findByName(name);
+            s = studentService.findByEmail(email);
 
         } catch (EmptyResultDataAccessException e) {
             response.setCode("user_error");
@@ -40,6 +39,12 @@ public class StudentController {
         }
         return response;
     }
+
+    @RequestMapping(value = "/delete-student/{email}", method = RequestMethod.POST)
+    public void deleteStudent(@PathVariable String email) {
+        studentService.deleteByEmail(email);
+    }
+
 
 
 }

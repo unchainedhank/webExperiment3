@@ -26,6 +26,17 @@ public class StudentDao {
                 new Object[]{name},new BeanPropertyRowMapper<>(Student.class));
     }
 
+    public Student findByEmail(String email) {
+        //queryForObject用于查询单条记录返回结果
+        return jdbcTemplate.queryForObject("SELECT * FROM student.student_table WHERE email=?",
+                new Object[]{email},new BeanPropertyRowMapper<>(Student.class));
+    }
+
+    public void deleteByEmail(String email) {
+        jdbcTemplate.update("delete from student.student_table where email=?",email);
+    }
+
+
     //查找所有学生
     public List<Student> findAll() {
         return jdbcTemplate.query("select * from student.student_table", new BeanPropertyRowMapper<>(Student.class));

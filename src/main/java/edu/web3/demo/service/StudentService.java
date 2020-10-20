@@ -24,4 +24,12 @@ public class StudentService {
         return studentDao.findAll();
     }
 
+    public Student findByEmail(String email) {
+        return studentDao.findByEmail(email);
+    }
+
+    public void deleteByEmail(String email) {
+        studentDao.deleteByEmail(email);
+    }
+
 }
