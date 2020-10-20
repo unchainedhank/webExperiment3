@@ -32,4 +32,8 @@ public class StudentService {
         studentDao.deleteByEmail(email);
     }
 
+    public void updatePasswordAndEmailById(int id, String password, String email) {
+        studentDao.updatePasswordAndEmailById(id, password, email);
+    }
+
 }

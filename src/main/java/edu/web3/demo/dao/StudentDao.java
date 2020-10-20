@@ -42,6 +42,11 @@ public class StudentDao {
         return jdbcTemplate.query("select * from student.student_table", new BeanPropertyRowMapper<>(Student.class));
     }
 
+    //更新学生密码和邮箱
+    public void updatePasswordAndEmailById(int id, String password, String email) {
+        jdbcTemplate.update("update student.student_table set password = ? and email = ? where id = ?;",password,email,id);
+    }
+
 
 
 }

@@ -42,7 +42,17 @@ public class StudentController {
 
     @RequestMapping(value = "/delete-student/{email}", method = RequestMethod.POST)
     public void deleteStudent(@PathVariable String email) {
-        studentService.deleteByEmail(email);
+        try {
+            studentService.deleteByEmail(email);
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/update-student",method = RequestMethod.PUT)
+    public void updateStudent(@RequestParam("id") String id,@RequestParam("email") String email,@RequestParam("password") String password) {
+        var iid = Integer.parseInt(id);
+        studentService.updatePasswordAndEmailById(iid,email,password);
     }
 
 
