@@ -3,6 +3,7 @@ package edu.web3.demo.controller;
 import edu.web3.demo.Domain.Student;
 import edu.web3.demo.Domain.StudentResponse;
 import edu.web3.demo.service.StudentService;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -23,11 +24,14 @@ public class StudentController {
     @RequestMapping(value = "/login/{name}/{password}", method = RequestMethod.GET)
     public StudentResponse validate(@PathVariable String name, @PathVariable String password) {
         var s = new Student();
-        s = studentService.findByName(name);
         var response = new StudentResponse();
-        if (s == null)
+        try {
+            s = studentService.findByName(name);
+
+        } catch (EmptyResultDataAccessException e) {
             response.setCode("user_error");
-        assert s != null;
+            return response;
+        }
         var passWd = s.getPassword();
         if (!passWd.equals(password))
             response.setCode("passwd_error");
