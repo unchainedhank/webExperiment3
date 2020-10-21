@@ -44,7 +44,7 @@ public class StudentDao {
 
     //更新学生密码和邮箱
     public void updatePasswordAndEmailById(int id, String password, String email) {
-        jdbcTemplate.update("update student.student_table set password = ? and email = ? where id = ?;",password,email,id);
+        jdbcTemplate.update("update student.student_table set password = ? , email = ? where id = ?;",password,email,id);
     }
 
 
