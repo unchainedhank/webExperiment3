@@ -26,8 +26,8 @@ public class StudentController {
         var response = new StudentResponse();
         try {
             s = studentService.findByEmail(email);
-
         } catch (EmptyResultDataAccessException e) {
+            throw new Exception(e)
             response.setCode("user_error");
             return response;
         }
