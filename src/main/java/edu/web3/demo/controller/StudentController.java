@@ -24,13 +24,14 @@ public class StudentController {
     public StudentResponse validate(@PathVariable String email, @PathVariable String password) {
         var s = new Student();
         var response = new StudentResponse();
+
         try {
             s = studentService.findByEmail(email);
         } catch (EmptyResultDataAccessException e) {
-            throw new Exception(e)
-            response.setCode("user_error");
+            response.setCode("email_error");
             return response;
         }
+
         var passWd = s.getPassword();
         if (!passWd.equals(password))
             response.setCode("passwd_error");
