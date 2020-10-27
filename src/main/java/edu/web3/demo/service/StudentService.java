@@ -36,4 +36,8 @@ public class StudentService {
         studentDao.updatePasswordAndEmailById(id, password, email);
     }
 
+    public boolean save(String name, String password, String major, String email) {
+        return studentDao.save(name, password, major, email);
+    }
+
 }

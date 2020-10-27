@@ -7,11 +7,12 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.util.List;
 
 @RestController
 //@CrossOrigin(origins = "http://localhost:8080/#/",maxAge = 1000)
-public class StudentController {
+public class StudentController implements Serializable {
     @Resource
     private StudentService studentService;
 
@@ -54,6 +55,22 @@ public class StudentController {
     public void updateStudent(@RequestParam("id") String id,@RequestParam("email") String email,@RequestParam("password") String password) {
         var iid = Integer.parseInt(id);
         studentService.updatePasswordAndEmailById(iid,email,password);
+    }
+
+    @PostMapping(value = "/insert-student")
+    public StudentResponse saveNewStudent(@RequestBody Student student) {
+        String password = student.getPassword();
+        String email = student.getEmail();
+        String major = student.getMajor();
+        String name = student.getName();
+
+        StudentResponse studentResponse = new StudentResponse();
+        if (studentService.save(name, password, major, email)) {
+            studentResponse.setCode("succeed");
+        } else {
+            studentResponse.setCode("failed");
+        }
+        return studentResponse;
     }
 
 

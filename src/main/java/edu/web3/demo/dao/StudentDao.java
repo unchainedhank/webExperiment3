@@ -1,6 +1,7 @@
 package edu.web3.demo.dao;
 
 import edu.web3.demo.Domain.Student;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -45,6 +46,17 @@ public class StudentDao {
     //更新学生密码和邮箱
     public void updatePasswordAndEmailById(int id, String password, String email) {
         jdbcTemplate.update("update student.student_table set password = ? , email = ? where id = ?;",password,email,id);
+    }
+
+    //新建学生
+    public boolean save(String name, String password, String major, String email) {
+        try {
+            jdbcTemplate.update("insert into student.student_table(name, password, email) values(?,?,?)",
+                    name,password,email);
+        } catch (DataAccessException e) {
+            return false;
+        }
+        return true;
     }
 
 
